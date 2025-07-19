@@ -226,23 +226,11 @@ class Bubble:
             if fade_progress >= 1.0:
                 self.is_visible = False
                 
-    def start_fade(self):
-        """Start the fade out animation."""
-        if not self.fade_start_time:
-            self.fade_start_time = time.time()
+    
             
     def get_alpha(self) -> int:
         """Get current alpha value based on fade state."""
-        if not self.fade_start_time:
-            # Fade in animation
-            age = time.time() - self.creation_time
-            if age < BUBBLE_FADE_DURATION:
-                return int(BUBBLE_ALPHA * (age / BUBBLE_FADE_DURATION))
-            return BUBBLE_ALPHA
-        else:
-            # Fade out animation
-            fade_progress = (time.time() - self.fade_start_time) / BUBBLE_FADE_DURATION
-            return int(BUBBLE_ALPHA * (1.0 - fade_progress))
+        return BUBBLE_ALPHA
             
     def draw(self, screen: pygame.Surface):
         """Draw the bubble on the screen."""

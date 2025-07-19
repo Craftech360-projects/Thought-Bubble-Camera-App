@@ -28,7 +28,7 @@ BUBBLE_SWAY_AMPLITUDE = 5  # pixels
 BUBBLE_SWAY_SPEED = 2  # oscillations per second
 
 # Text settings
-DEFAULT_FONT_SIZE = 16
+DEFAULT_FONT_SIZE = 36
 MIN_FONT_SIZE = 12
 MAX_FONT_SIZE = 24
 TEXT_COLOR = (0, 0, 0)  # Black

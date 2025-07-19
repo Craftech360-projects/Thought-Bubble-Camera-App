@@ -56,10 +56,12 @@ class BubbleRenderer:
             self.bubbles[person_id].update(position)
             
     def remove_bubble(self, person_id: str):
-        """Start fade animation for bubble removal."""
+        """Remove a bubble immediately."""
         if person_id in self.bubbles:
-            self.bubbles[person_id].start_fade()
-            self.logger.debug(f"Started fade for bubble {person_id}")
+            bubble = self.bubbles.pop(person_id)
+            if self.use_pooling and self.bubble_pool:
+                self.bubble_pool.release(bubble)
+            self.logger.debug(f"Removed bubble {person_id}")
             
     def update(self):
         """Update all bubbles and remove invisible ones."""
@@ -128,9 +130,9 @@ class BubbleRenderer:
         return len(self.bubbles)
         
     def clear_all(self):
-        """Start fade animation for all bubbles."""
-        for bubble in self.bubbles.values():
-            bubble.start_fade()
+        """Remove all bubbles immediately."""
+        for person_id in list(self.bubbles.keys()):
+            self.remove_bubble(person_id)
             
     def create_mock_bubbles(self, screen_size: Tuple[int, int], count: int = 3):
         """Create mock bubbles for testing."""
