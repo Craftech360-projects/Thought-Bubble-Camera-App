@@ -1,0 +1,24 @@
+# UI and Graphics Dependencies
+pygame==2.5.2
+Pillow==10.0.1
+numpy==1.24.3
+
+# Utilities
+python-dotenv==1.0.0
+
+# Development Dependencies
+pytest==7.4.3
+pytest-cov==4.1.0
+black==23.12.1
+flake8==6.1.0
+mypy==1.7.1
+
+# Computer Vision Dependencies
+opencv-python==4.8.1.78
+mediapipe==0.10.7
+
+# Performance and Threading
+scipy==1.11.4
+
+# Packaging (optional, install when needed)
+# pyinstaller==6.1.0
