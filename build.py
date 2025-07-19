@@ -94,6 +94,53 @@ def create_distribution():
     print("Distribution package created!")
     
 
+def create_dmg_installer():
+    """Create a .dmg installer for macOS."""
+    if platform.system() != 'Darwin':
+        print("\nSkipping .dmg creation (not on macOS).")
+        return
+
+    print("\nCreating .dmg installer...")
+    
+    # Check for create-dmg tool
+    if not shutil.which('create-dmg'):
+        print("Error: 'create-dmg' command not found.")
+        print("Please install it using Homebrew: brew install create-dmg")
+        return False
+
+    dist_dir = Path('dist')
+    app_name = 'ThoughtBubbleCamera'
+    app_path = dist_dir / f"{app_name}.app"
+    dmg_path = dist_dir / f"{app_name}.dmg"
+
+    if not app_path.exists():
+        print(f"Error: {app_path} not found. Run the build first.")
+        return False
+
+    # Command to create DMG
+    cmd = [
+        'create-dmg',
+        '--volname', f'{app_name} Installer',
+        '--window-pos', '200', '120',
+        '--window-size', '800', '400',
+        '--icon-size', '100',
+        '--app-drop-link', '600', '185',
+        str(dmg_path),
+        str(app_path)
+    ]
+
+    result = subprocess.run(cmd, capture_output=True, text=True)
+
+    if result.returncode != 0:
+        print("DMG creation failed!")
+        print("STDOUT:", result.stdout)
+        print("STDERR:", result.stderr)
+        return False
+    
+    print(f"Successfully created {dmg_path}")
+    return True
+
+
 def main():
     """Main build process."""
     print("Thought Bubble Camera App - Build Script")
@@ -111,6 +158,10 @@ def main():
     if build_executable():
         # Create distribution
         create_distribution()
+
+        # Create DMG installer for macOS
+        if platform.system() == 'Darwin':
+            create_dmg_installer()
         
         print("\n" + "=" * 50)
         print("BUILD SUCCESSFUL!")
